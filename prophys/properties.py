@@ -14,6 +14,7 @@ from .constants import (
     POSITIVE_AA,
     NEGATIVE_AA,
     AMINO_ACIDS,
+    DIWV,
 )
 from .validators import validate_sequence
 
@@ -144,10 +145,12 @@ class ProteinAnalyzer:
     
     def instability_index(self) -> float:
         """
-        Calculate the instability index.
+        Calculate the instability index using DIWV values.
         
         A protein with instability index < 40 is predicted as stable,
         a value > 40 predicts instability.
+        
+        Based on Guruprasad et al. (1990) method.
         
         Returns:
             Instability index
@@ -158,9 +161,8 @@ class ProteinAnalyzer:
         score = 0.0
         for i in range(self.length - 1):
             dipeptide = self.sequence[i:i+2]
-            # Use a simplified instability calculation
-            # In practice, this would use DIWV (dipeptide instability weight values)
-            score += 1.0  # Placeholder for actual DIWV lookup
+            # Use DIWV (Dipeptide Instability Weight Values)
+            score += DIWV.get(dipeptide, 1.0)
         
         instability = (10.0 / self.length) * score
         return round(instability, 2)

@@ -2,10 +2,11 @@
 Validation utilities for protein sequences.
 """
 
+from typing import Tuple
 from .constants import AMINO_ACIDS
 
 
-def validate_sequence(sequence: str) -> tuple[bool, str]:
+def validate_sequence(sequence: str) -> Tuple[bool, str]:
     """
     Validate a protein sequence against the IUPAC amino acid alphabet.
     
